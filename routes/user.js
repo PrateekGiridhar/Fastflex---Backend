@@ -38,7 +38,7 @@ const duoClient = new Client({
 
 
 router.post("/payment", async (req, res) => {
-  console.log(req.body);
+  //console.log(req.body);
 
   const token = req.header("Authorization"); // Extract the token from the 'Authorization' header
 
@@ -50,7 +50,7 @@ router.post("/payment", async (req, res) => {
   const tokenWithoutPrefix = token.replace("Bearer ", "");
   const decoded = jwt.verify(tokenWithoutPrefix, loginSecretKey);
   const userId = decoded.username;
-  console.log(req.body.sourceaddress);
+  //console.log(req.body.sourceaddress);
 
   try{
   const payment = await Payment.create({
@@ -70,13 +70,13 @@ router.post("/payment", async (req, res) => {
     // ),
   });
 
-  console.log("The payment stored in db", payment);
+  //console.log("The payment stored in db", payment);
 
   // return res.json({ status: ok, trackingId: tracking_id });
   return res.json({ status: ok });
 }
 catch (error) {
-  console.log("error   ", error);
+  //console.log("error   ", error);
   res.status(400).json({ status: "error", error: "Details not full" });
 }
 });
@@ -106,7 +106,7 @@ router.post("/admin_form2", form2.company_services);
 
 // router.post("/duo-auth", async (req, res) => {
 //   const username = req.body.username;
-//   console.log("username coming for duo from client", username);
+//   //console.log("username coming for duo from client", username);
 
 //   if (!username) {
 //     return res.status(400).json({ message: "Missing username" });
@@ -115,12 +115,12 @@ router.post("/admin_form2", form2.company_services);
 //   await duoClient.healthCheck();
 //   const state = duoClient.generateState();
 //   req.session.duo = { state, username };
-//   console.log(req.session);
+//   //console.log(req.session);
 //   const authUrl = duoClient.createAuthUrl(username, state);
 //   await duoClient.healthCheck();
 //   const state = duoClient.generateState();
 //   req.session.duo = { state, username };
-//   console.log(req.session);
+//   //console.log(req.session);
 //   const authUrl = duoClient.createAuthUrl(username, state);
 
 //   res.json({ authUrl });
@@ -129,7 +129,7 @@ router.post("/admin_form2", form2.company_services);
 // });
 
 router.get("/redirect", async (req, res) => {
-  console.log("duo callback");
+  //console.log("duo callback");
   res.send(
     "Authenticated Successfully, Please close this tab and go back to the app"
   );
@@ -137,7 +137,7 @@ router.get("/redirect", async (req, res) => {
 
 router.post("/signup", async (req, res) => {
   try {
-    console.log("soud", req.body);
+    //console.log("soud", req.body);
     const emailName = req.body.email.split("@")[0];
     const randomNum = Math.floor(Math.random() * 10000);
     const username = `${emailName}${randomNum}`;
@@ -149,7 +149,7 @@ router.post("/signup", async (req, res) => {
         .status(400)
         .json({ status: "error", error: "passwords doesn't match" });
     }
-    console.log("--------------------------");
+    //console.log("--------------------------");
 
     const user = await User.create({
       firstname: req.body.firstName,
@@ -164,9 +164,9 @@ router.post("/signup", async (req, res) => {
       question2: req.body.question2,
       location: ''
     });
-    console.log("user updated in db", user);
+    //console.log("user updated in db", user);
   } catch (error) {
-    console.log("error   ", error);
+    //console.log("error   ", error);
     res.status(400).json({ status: "error", error: "Details not full" });
   }
 });
@@ -223,7 +223,7 @@ router.post("/forgot", async (req, res) => {
     };
     const check = await mailTransport.sendMail(details);
     res.send({ message: "ok" });
-    console.log = ("Status ", check.status);
+    //console.log = ("Status ", check.status);
   } catch (error) {
     res.status(500).send(error.message);
   }
@@ -242,7 +242,7 @@ router.post("/security_questions", async (req, res) => {
       question1: user.question1,
       question2: user.question2,
     };
-    console.log(questions);
+    //console.log(questions);
     res.json(questions);
   } catch (err) {
     console.error(err.message);
@@ -254,8 +254,8 @@ router.post("/verify-answers", async (req, res) => {
   const { email, answers } = req.body;
   const user = await User.findOne({ email });
   const verifiedAnswers = [user.answer1, user.answer2];
-  console.log(user);
-  console.log(email, answers);
+  //console.log(user);
+  //console.log(email, answers);
   if (!user || JSON.stringify(verifiedAnswers) !== JSON.stringify(answers)) {
     return res
       .status(400)
@@ -277,10 +277,10 @@ router.post("/auth", async (req, res) => {
   try {
     const token = await admin.auth().verifyIdToken(idToken);
 
-    console.log(token);
+    //console.log(token);
     exit = await GoogleUser.findOne({ loginid: token.uid });
 
-    console.log("765", exit);
+    //console.log("765", exit);
 
     if (exit) {
       return res.status(200).send({ message: "Already in" });
@@ -292,12 +292,12 @@ router.post("/auth", async (req, res) => {
           loginid: token.uid,
           role: "user",
         });
-        console.log("user updated in db", gau);
+        //console.log("user updated in db", gau);
         res.json({
           status: "ok",
         });
       } catch (error) {
-        console.log("error", error);
+        //console.log("error", error);
         res.status(400).json({ status: "error", error: "Details not full" });
       }
     }

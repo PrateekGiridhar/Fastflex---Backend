@@ -30,7 +30,7 @@ const login = async (req, res) => {
 
   const randomString = generateRandomString(6);
     try {
-      console.log("sdf",req.body)
+      //console.log("sdf",req.body)
       let user = {}
       if(req.body.username.includes('@')){
         user = await User.findOne({ email: req.body.username });

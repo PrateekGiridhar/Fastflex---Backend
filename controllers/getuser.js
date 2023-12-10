@@ -29,7 +29,7 @@ const getuser = async (req, res) => {
 
     // Extract the user ID from the decoded token (you can customize the token structure as needed)
     const userId = decoded.username;
-    console.log(userId);
+    //console.log(userId);
     let user = {};
     user = await User.findOne({ email: userId });
     // You can fetch user details from a database or any other data source here
@@ -59,7 +59,7 @@ const get_addresses = async (req, res) => {
 
     // Extract _id from each payment
     const addresses = unassignedOrders.map(payment => payment._id);
-    console.log(addresses)
+    //console.log(addresses)
 
     const unassignedAddresses = unassignedOrders.map(payment => payment._id);
     const deliveredAddresses = deliveredOrders.map(payment => payment._id);
@@ -87,7 +87,7 @@ const get_drivers = async (req, res) => {
 const set_drivers = async (req, res) => {
   try {
     const deliveryId = await Payment.find({ _id: req.body.addressId });
-    console.log(deliveryId)
+    //console.log(deliveryId)
     const criteria  = {
       _id: req.body.addressId
     }
@@ -97,14 +97,14 @@ const set_drivers = async (req, res) => {
     }
     const result = await Payment.updateOne(criteria, { $set: updateData });
     if (result.modifiedCount > 0) {
-      console.log('Record updated successfully');
+      //console.log('Record updated successfully');
       res.json({
         status: 'ok',
         body: 'Record updated successfully',       
       });
       // return { status: 'ok', message: 'Record updated successfully' };
     } else {
-      console.log('Record not found or no changes made');
+      //console.log('Record not found or no changes made');
       res.json({
         status: 'ok',
         body: 'Record updated successfully',       
@@ -137,7 +137,7 @@ const set_driver_location = async (req, res) => {
     const result = await User.updateOne(criteria, { $set: updateData });
     const result1 = await Payment.updateOne(criteria1, { $set: updateData });
     if (result.modifiedCount > 0) {
-      console.log('Record updated successfully');
+      //console.log('Record updated successfully');
 
       res.json({
         status: 'ok',
@@ -145,7 +145,7 @@ const set_driver_location = async (req, res) => {
       });
       // return { status: 'ok', message: 'Record updated successfully' };
     } else {
-      console.log('Record not found or no changes made');
+      //console.log('Record not found or no changes made');
       res.json({
         status: 'ok',
         body: 'Record updated successfully',       
@@ -160,13 +160,13 @@ const set_driver_location = async (req, res) => {
 
 
 const get_reviews = async (req, res) => {
-  console.log(req.body.addressId)
+  //console.log(req.body.addressId)
   
     // Extract the user ID from the decoded token (you can customize the token structure as needed)
     
     try {
       const drivers = await Payment.find({ _id: { $in: req.body.addressId }});
-      console.log(drivers)
+      //console.log(drivers)
       res.json({drivers})
       
   
@@ -180,15 +180,15 @@ const get_reviews = async (req, res) => {
 const get_customer_orders = async (req, res) => {
 
   const decoded = jwt.verify(req.body.jwt, loginSecretKey);
-  // console.log(req.body.addressId)
+  // //console.log(req.body.addressId)
   const userMail = decoded.username;
-  console.log(userMail)
+  //console.log(userMail)
     
     try {
       const del_orders = await Payment.find({ username: userMail, status:'Delivered'});
       const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
       
-      //console.log(orders)
+      ////console.log(orders)
       res.json({del_orders,pending_orders})
        
     } catch (error) {
@@ -213,7 +213,7 @@ const set_review = async (req, res) => {
       }
       const result = await Payment.updateOne(criteria, { $set: updateData });
       if (result.modifiedCount > 0) {
-        console.log('Record updated successfully');
+        //console.log('Record updated successfully');
   
         res.json({
           status: 'ok',
@@ -221,7 +221,7 @@ const set_review = async (req, res) => {
         });
         // return { status: 'ok', message: 'Record updated successfully' };
       } else {
-        console.log('Record not found or no changes made');
+        //console.log('Record not found or no changes made');
         res.json({
           status: 'ok',
           body: 'Record updated successfully',       
@@ -237,13 +237,13 @@ const set_review = async (req, res) => {
 };
 
 const trackorder = async (req, res) => {
-  console.log(req.body.addressId)
+  //console.log(req.body.addressId)
   
     // Extract the user ID from the decoded token (you can customize the token structure as needed)
     
     try {
       const orderDetails = await Payment.find({ _id: { $in: req.body.trackingId }});
-      console.log(orderDetails)
+      //console.log(orderDetails)
       res.json({orderDetails})
       
   
@@ -254,13 +254,13 @@ const trackorder = async (req, res) => {
 };
 
 const get_customer_add = async (req, res) => {
-  console.log(req.body.addressId)
+  //console.log(req.body.addressId)
   
     // Extract the user ID from the decoded token (you can customize the token structure as needed)
     
     try {
       const orderDetails = await Payment.find({ _id: { $ne: req.body.trackingId }});
-      console.log(orderDetails)
+      //console.log(orderDetails)
       res.json({orderDetails})
       
   
@@ -275,13 +275,13 @@ const get_driver_add = async (req, res) => {
   const decoded = jwt.verify(req.body.jwt, loginSecretKey);
 
   const userMail = decoded.username;
-  console.log(userMail)
+  //console.log(userMail)
     
     try {
       const orders = await Payment.find({ driver: userMail, status:{ $ne: 'Delivered' }});
       // const pending_orders = await Payment.find({ username: userMail, status:{ $ne: 'Delivered' }});
       
-      //console.log(orders)
+      ////console.log(orders)
       res.json({orders})
        
     } catch (error) {
@@ -302,9 +302,9 @@ const set_pickup = async (req, res) => {
       status: "Pending",
     }
     const result = await Payment.updateOne(criteria, { $set: updateData });
-    console.log(result)
+    //console.log(result)
     if (result.matchedCount > 0) {
-      console.log('Record updated successfully');
+      //console.log('Record updated successfully');
 
       res.json({
         status: 'ok',
@@ -312,7 +312,7 @@ const set_pickup = async (req, res) => {
       });
       // return { status: 'ok', message: 'Record updated successfully' };
     } else {
-      console.log('Record not found or no changes made');
+      //console.log('Record not found or no changes made');
       res.status(500).json({ error: 'Record Not Found' });
     }
     
@@ -339,7 +339,7 @@ const set_delivered = async (req, res) => {
 
     const result = await Payment.updateOne(criteria, { $set: updateData });
 
-    console.log(maill.username)
+    //console.log(maill.username)
 
     let mailTransport = nodemailer.createTransport({
       service: "gmail",
@@ -355,11 +355,11 @@ const set_delivered = async (req, res) => {
       html: `<p>Hi, This email is being sent to let you know that your delivery with tracking Id ${maill._id} has been Delivered`,
     };
     const check = await mailTransport.sendMail(details);
-    console.log("Status ", check.response);
+    //console.log("Status ", check.response);
 
 
     if (result.modifiedCount > 0) {
-      console.log('Record updated successfully');
+      //console.log('Record updated successfully');
 
       res.json({
         status: 'ok',
@@ -367,7 +367,7 @@ const set_delivered = async (req, res) => {
       });
       // return { status: 'ok', message: 'Record updated successfully' };
     } else {
-      console.log('Record not found or no changes made');
+      //console.log('Record not found or no changes made');
       res.status(500).json({ error: 'Record Not Found' });
     }
     

@@ -14,14 +14,14 @@ const loginSecretKey = 'fastflex-user-login-secret-key';
 
 const company_services = async (req, res) => {
     try {
-      console.log("soud",req.body)
+      // console.log("soud",req.body)
       const company_name = req.body.company_name;
       const price = req.body.price;
       const type_of_service = req.body.type_of_service;
       const weight_category  = req.body.weight_category;
 
       
-      console.log("--------------------------")
+      // console.log("--------------------------")
 
       const user = await User.create({
         company_name: req.body.company_name,
@@ -29,7 +29,7 @@ const company_services = async (req, res) => {
         type_of_service: req.body.type_of_service,
         weight_category: req.body.weight_category,
       })
-      console.log("user updated in db", user)
+      // console.log("user updated in db", user)
       res.json({
         status :'ok',
         body:{
@@ -37,7 +37,7 @@ const company_services = async (req, res) => {
         }
     })
     } catch (error) {
-      console.log("error   ", error)
+      // console.log("error   ", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
   
@@ -57,7 +57,7 @@ const company_remove_services = async (req, res) => {
     });
 
     if (deletedService) {
-      console.log("Service deleted from db", deletedService);
+      // console.log("Service deleted from db", deletedService);
       res.json({
         status: 'ok',
         body: {
@@ -72,7 +72,7 @@ const company_remove_services = async (req, res) => {
       });
     }
   } catch (error) {
-    console.log("error   ", error);
+    // console.log("error   ", error);
     res.status(400).json({ status: 'error', error: "Details not full" });
   }
 };
@@ -91,7 +91,7 @@ const update_services = async (req, res)  => {
         type_of_service: req.body.new_type_of_service,
         weight_category: req.body.new_weight_category,
     }
-    console.log('___________________________________')
+    // console.log('___________________________________')
     console.log(req.body);
     const result = await User.updateOne(criteria, { $set: updateData });
     console.log(result)
@@ -103,7 +103,7 @@ const update_services = async (req, res)  => {
       });
       // return { status: 'ok', message: 'Record updated successfully' };
     } else {
-      console.log('Record not found or no changes made');
+      // console.log('Record not found or no changes made');
       res.json({
         status: 'ok',
         body: 'Record updated successfully',       
@@ -118,7 +118,7 @@ const update_services = async (req, res)  => {
 const services_list = async (req, res)  => {
   try {
     const servicesData = await User.find();
-    console.log(servicesData)
+    // console.log(servicesData)
     // res.json({
     //   status: 'ok',
     //   body : servicesData
@@ -134,9 +134,9 @@ const services_list = async (req, res)  => {
 
 const get_price = async (req, res)  => {
   try {
-    console.log(req.body.selectedItem)
+    // console.log(req.body.selectedItem)
     const price = await User.findOne({_id:req.body.selectedItem});
-    console.log('price  ',price)
+    // console.log('price  ',price)
     // res.json({
     //   status: 'ok',
     //   body : servicesData

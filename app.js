@@ -16,8 +16,8 @@ mongoose.connect(process.env.REACT_APP_MONGO_URI, {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 })
-.then(() => console.log("DB CONNECTED"))
-.catch((err) => console.log("DB CONNECTION ERROR", err));
+// .then(() => console.log("DB CONNECTED"))
+.catch((err) => alert(err))//console.log("DB CONNECTION ERROR", err));
 
 
 

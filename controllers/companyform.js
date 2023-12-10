@@ -14,7 +14,7 @@ const loginSecretKey = 'fastflex-user-login-secret-key';
 
 const company_form = async (req, res) => {
     try {
-      console.log("soud",req.body)
+      // console.log("soud",req.body)
       const emailName = req.body.email.split('@')[0];
       const randomNum = Math.floor(Math.random() * 10000);
       const username = `${emailName}${randomNum}`;
@@ -24,7 +24,7 @@ const company_form = async (req, res) => {
       if (req.body.password != req.body.confirmPassword){
         return res.status(400).json({status:"error", error:"passwords doesn't match"})
       }
-      console.log("--------------------------")
+      // console.log("--------------------------")
 
       const user = await User.create({
         firstname: req.body.firstName,
@@ -38,7 +38,7 @@ const company_form = async (req, res) => {
         question1:req.body.question1,
         question2:req.body.question2,
       })
-      console.log("user updated in db", user)
+      // console.log("user updated in db", user)
       res.json({
         status :'ok',
         body:{
@@ -46,7 +46,7 @@ const company_form = async (req, res) => {
         }
     })
     } catch (error) {
-      console.log("error   ", error)
+      // console.log("error   ", error)
         res.status(400).json({status: 'error', error: "Details not full"})
     }
   
